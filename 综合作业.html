@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>综合作业</title>
+	<style type="text/css">
+		*{
+			padding:0;
+			margin:0;
+		}
+		.header{
+			width:1000px;
+			height:100px;
+			border-top: 5px solid #284c7e;
+			margin: 0 auto;
+			background-image:url('images/body_bg.gif');
+			background-repeat:repeat-x;
+		}
+		.logo{
+			float:left;
+		}
+		.search{
+			float:right;
+			font-size:12px;
+		}
+		.nav{
+			width:1000px;
+			height:60px;
+			border-top: 1px solid #d6d6d6;
+			margin: 0 auto;
+			font-weight:bold;
+			font-size:15px;
+			position:relative;
+		}
+		ul{
+			list-style:none;
+		}
+		ul>li{
+			display:inline-block;
+		}
+		a:link{
+			text-decoration:none;
+		}
+		.banner{
+			width:1200px;
+			height:397px;
+			border:1px solid red;
+			margin:0 auto;
+			position:relative;
+			overflow:hidden;
+			background-color: #f7f7f7;
+		}
+		.foot{
+			background-color:blue;
+			text-align:center;
+			line-height: 32px;
+			color:white;
+		}
+		#box{
+			position:absolute;
+			left: 0;
+		}
+		.slider{
+			width: 8400px;
+			position:absolute;
+			left:-1200px;
+		}
+		.slide{
+			width: 1200px;
+			overflow: hidden;
+			float:left;
+		}
+		.banner>span{
+			display:block;
+			width: 30px;
+			height: 50px;
+			text-align:center;
+			cursor:pointer;
+			top:175px;
+			line-height:50px;
+			background: rgb(255, 0, 0);
+			font-size: 30px;
+			position:absolute;
+			opacity:0;
+		}
+		#left{
+			left:30px;
+		}
+		#right{
+			right:30px;
+		}
+		.nav1{
+			position:absolute;
+			left: 500px;
+			bottom: 20px;
+		}
+		.nav1>li{
+			float:left;
+			width: 20px;
+			height: 20px;
+			background:#ccc;
+			cursor:pointer;
+			margin:0 10px;
+			border-radius: 50%;
+		}
+		.nav1.active{
+			background: red;
+		}
+	</style>
+</head>
+<body>
+	<div class="header">
+		<div class="logo">
+			<img src="images/logo.png">
+		</div>
+		<div class="search">
+			<p><a href="">旧版网页 English Version</a></p>
+			<input type="text" value="搜索" id="search"/>
+			<!-- <input name="" type="submit" class="btn_search" value=""/> -->
+		</div>
+	</div>
+	<div class="nav">
+		<ul id="easynav">
+			<li>
+				<a href="http://www.hebtu.edu.cn/">首页</a>
+			</li>
+			<select name="list" id="list">
+				<option value="">学校概况</option>
+				<option value="">学校简介</option>
+				<option value="">学科专业</option>
+			</select>
+			<li>
+				<a href="">机构设置</a>
+			</li>
+			<li>
+				<a href="">人才培养</a>
+			</li>
+			<li>
+				<a href="">科学研究</a>
+			</li>
+			<li>
+				<p><a href="">招生就业</a></p>
+			</li>
+			<li>
+				<a href="">人才招聘</a>
+			</li>
+			<li>
+				<a href="">公共服务</a>
+			</li>
+			<li>
+				<a href="">校友会</a>
+			</li>
+		</ul>
+	</div>
+	<script>
+		window.onload=function(){
+			document.getElementsByName('list')[0].value='学校概况';
+		}
+	</script>
+
+	<!-- 轮播图 -->
+	<div class="banner">
+		<div class="slider" id="slider">
+			<div class="slide"><img src="images/shida4.jpg" alt=""></div>
+			<div class="slide"><img src="images/shida.jpg"></div>
+			<div class="slide"><img src="images/shida2.jpg" alt=""></div>
+			<div class="slide"><img src="images/shida3.jpg" alt=""></div>
+			<div class="slide"><img src="images/shida4.jpg" alt=""></div>
+			<div class="slide"><img src="images/shida.jpg"></div>
+		</div>
+		<span id="left"><</span>
+		<span id="right">></span>
+		<ul class="nav1" id="nav1">
+			<li class="active"></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<script type="text/JavaScript">
+		var banner = document.getElementById('banner');
+		var oNavlist = document.getElementById('nav1').children;
+		var slider = document.getElementById('slider');
+		var left = document.getElementById('left');
+		var right = document.getElementById('right');
+		var index = 1;
+		var timer;
+		var move = false;
+		function next(){
+			index++;
+			animate(slider,{left:-1200*index},function(){
+				if(index==5){
+					slider.style.left='-1200px';
+					index=1;
+				}
+			});
+		}
+		function prev(){
+			index--;
+			navmove();
+			animate(slider,{left:-1200*index},function(){
+				if(index==0){
+					slider.style.left='-6000px';
+					index=4;
+				}
+				move=false;
+			});
+		}
+		var timer=setInterval(next,3000);
+		
+		banner.onmouseover=function(){
+			animate(left,{opacity:50});
+			animate(right,{opacity:50});
+			clearInterval(timer);
+		}
+		banner.onmouseout=function(){
+			animate(left,{opacity:0});
+			animate(right,{opacity:0});
+			timer=setInterval(next,3000);
+		}
+		function getStyle(obj,attr){
+			if (obj.currentStyle) {
+				return obj.currentStyle[attr];
+			}else{
+				return getComputedStyle(obj,null)[attr];
+			}
+		}
+		function animate(obj,json,callback){
+			clearInterval(obj.timer);
+			obj.timer=setInterval(function(){
+				var stop=true;
+				for(var attr in json){
+					var now=0;
+					if (attr=="opaticy") {
+						now=parseInt(getStyle(obj, attr)*100);
+					}else{
+						now=parseInt(getStyle(obj,attr));
+					}
+					var speed=(json[attr]-now)/8;
+					speed=speed>0?Math.ceil(speed):Math.floor(speed);
+					var cur=now+speed;
+					if(attr=='opacity'){
+						obj.style[attr]=cur/100;
+					}else{
+						obj.style[attr]=cur+"px";
+					}
+					if(json[attr]!==cur){
+						stop=false;
+					}
+				}
+				if(stop){
+					clearInterval(obj.timer);
+					if(callback){
+						callback();
+					}
+				}
+			},50);
+		}
+
+		right.onclick=next;
+		left.onclick=prev;
+		for (var i = 0; i < oNavlist.length; i++) {
+			oNavlist[i].index=i;
+			oNavlist[i].onclick=function(){
+				index=this.index+1;
+				navmove();
+				animate(slider,{left:-1200*index});
+			}
+		}	
+		
+		function navmove(){
+			for(var i=0;i<oNavlist.length;i++){
+				oNavlist[i].className="";
+			}
+			if(index===5){
+				oNavlist[0].className="active";
+			}else if(index===0){
+				oNavlist[3].className="active";
+			}else{
+				oNavlist[index-1].className="active";
+			}
+		}
+		timer=setInterval(next,3000);
+	</script>
+
+	<!-- animate动画效果 -->
+	<div id="box">
+		<img src="images/jianyi.jpg" alt="">
+	</div>
+	<script>
+		var box=document.getElementById("box");
+		window.onload=function(){
+			var timer=setInterval(function(){
+				var now = parseInt(getStyle(box,'left'));
+				if(now==1200){
+					clearInterval(timer);
+				}else{
+					box.style.left=now+1+"px";
+				}			
+			},10);
+		}
+
+		function getStyle(obj,attr){
+			if (obj.currentStyle) {
+				return obj.currentStyle[attr];
+			}else{
+				return getComputedStyle(obj,null)[attr];
+			}
+		}
+	</script>
+
+	<div class="foot">
+		<p>版权所有河北师范大学&nbsp;&nbsp;&nbsp;&nbsp;<a href="" target="_blank" style="line-height: 20px;color: #fff;">冀ICP备18011017号-3</a></p>
+		<a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=13010802000630" target="blank" style="display: inline-block;text-decoration: none;height: 14px;line-height: 14px;">
+			<img src="http://www.hebtu.edu.cn/resources/40/20170303094702805.png" style="float: left;">
+			<p style="float: left;height: 14px;line-height: 20px;margin:0px 0px 0px 5px;color: #fff;">冀公安网安备 13010802000630号</p></a>
+		<br>
+		<p>地址：河北省石家庄市南二环东路20号 邮编：050024</p>
+	</div>
+</body>
+</html>
